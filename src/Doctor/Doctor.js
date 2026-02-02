@@ -7,7 +7,7 @@ import './doctor.css'
 import {FaEdit} from 'react-icons/fa'
 import {FaTrash} from 'react-icons/fa'
 import {useNavigate} from 'react-router-dom'
-
+import { MdOutlineVisibility } from 'react-icons/md';
 
 
 function Doctor() {
@@ -34,22 +34,22 @@ function Doctor() {
      const handleView=(id)=>{
         navigate(`/doctor/detail/${id}`)
      }
-    const handleEdit = (row) => {
-        setEditRowId(row._id)
-        setEditData(row)
-    }
-    const handleSave = async() => {
-        try {
-            await axios.put(`http://localhost:8000/api/items/doctor/${editRowId}`,editData)
-            const updatedData = data.map((row) =>
-                row._id === editRowId ? { ...row, ...editData } : row
-            )
-            setData(updatedData)
-            setEditRowId(null)
-        } catch (error) {
-            console.log("error developed", error)
-        }
-    }
+    // const handleEdit = (row) => {
+    //     setEditRowId(row._id)
+    //     setEditData(row)
+    // }
+    // const handleSave = async() => {
+    //     try {
+    //         await axios.put(`http://localhost:8000/api/items/doctor/${editRowId}`,editData)
+    //         const updatedData = data.map((row) =>
+    //             row._id === editRowId ? { ...row, ...editData } : row
+    //         )
+    //         setData(updatedData)
+    //         setEditRowId(null)
+    //     } catch (error) {
+    //         console.log("error developed", error)
+    //     }
+    // }
 
     const handleDelete = (id) => {
         try {
@@ -60,10 +60,10 @@ function Doctor() {
         }
 
     }
-    const handleInputChange = (event) => {
-        const { name, value } = event.target
-        setEditData({ ...editData, [name]: value })
-    }
+    // const handleInputChange = (event) => {
+    //     const { name, value } = event.target
+    //     setEditData({ ...editData, [name]: value })
+    // }
 
     return (
 <div className='table-container'>
@@ -83,7 +83,7 @@ function Doctor() {
             <tbody>
                 {data.map((row) => (
                     <tr key={row._id} >
-                        {editRowId === row._id ? (
+                        {/* {editRowId === row._id ? (
                             <>
                                 <td><input name="name" value={editData.name} onChange={handleInputChange} /></td>
                                 <td><input name="lastname" value={editData.lastname} onChange={handleInputChange}/></td>
@@ -97,7 +97,7 @@ function Doctor() {
                                     <button className='action-btn btn-save' onClick={handleSave} >Save</button>
                                 </td>
                             </>
-                        ) : (
+                        ) : ( */}
                             <>
                                 <td>{row.name}</td>
                                 <td>{row.lastname}</td>
@@ -108,14 +108,14 @@ function Doctor() {
                                 <td> <img src={`http://localhost:8000/uploads/${row.image}`}  className='doctor-avatar' alt="doctor" /> </td>
                                 <td>
                                     <div className='action-cell'>
-                                    <button  className='action btn btn-edit' onClick={() => handleEdit(row)}><FaEdit></FaEdit></button>
+                                    <button  className='action btn btn-edit' onClick={() => navigate(`/doctor/edit/${row._id}`)}><FaEdit></FaEdit></button>
                                     <button className='action btn btn-delete' onClick={() => handleDelete(row._id)}><FaTrash></FaTrash></button>
-                                    <button className='action btn btn-view' onClick={()=>handleView(row._id)}>view</button>
+                                    <button className='action btn btn-view' onClick={()=>handleView(row._id)}> <MdOutlineVisibility></MdOutlineVisibility></button>
                                     </div>
                                 </td>
                             </>
 
-                        )}
+                    
                     </tr>
                 ))}
 
